@@ -1,4 +1,4 @@
-body,
+/* body,
 ul,
 li {
     font-family: tahoma;
@@ -23,16 +23,6 @@ header {
     padding: 2px 0px;
     position: sticky;
     top: 0px;
-}
-
-.banner {
-    height: 300px;
-    overflow: hidden;
-}
-
-.banner img {
-    margin: 0px 0px 0px 0px;
-    width: 100%;
 }
 
 .newTopico {
@@ -130,4 +120,4 @@ th:nth-child(1){
 
 tr:hover {
     background: rgb(200, 199, 199);
-}
+} */

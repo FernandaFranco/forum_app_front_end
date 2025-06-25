@@ -3,7 +3,7 @@
   Função para obter a lista existente do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
-const getList = async () => {
+const getList = () => {
   let url = 'http://127.0.0.1:5000/topicos';
   fetch(url, {
     method: 'get',
@@ -67,7 +67,7 @@ const insertButton = (parent) => {
   Função para remover um topico da lista de acordo com o click no botão close
   --------------------------------------------------------------------------------------
 */
-const removeElement = () => {
+const removeTopico = () => {
   let close = document.getElementsByClassName("close");
   // var table = document.getElementById('myTable');
   let i;
@@ -103,6 +103,31 @@ const deleteTopico = (titulo) => {
 
 /*
   --------------------------------------------------------------------------------------
+  Função para mostrar formulário de preenchimento de tópico
+  --------------------------------------------------------------------------------------
+*/
+const showForm = () => {
+  document.getElementById("topicoForm").hidden = false;
+
+  document.getElementById("newTopicoBtn").hidden = true;
+  document.getElementById("topicosList").hidden = true;
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para mostrar a lista de tópicos
+  --------------------------------------------------------------------------------------
+*/
+const showTopicos = () => {
+  document.getElementById("topicoForm").hidden = true;
+
+  document.getElementById("newTopicoBtn").hidden = false;
+  document.getElementById("topicosList").hidden = false;
+}
+
+
+/*
+  --------------------------------------------------------------------------------------
   Função para adicionar um novo topico com titulo, texto e username 
   --------------------------------------------------------------------------------------
 */
@@ -119,6 +144,8 @@ const newTopico = () => {
     insertList(inputTitulo, inputTexto, inputUsername)
     postTopico(inputTitulo, inputTexto, inputUsername)
     alert("Topico adicionado!")
+
+    showTopicos()
   }
 }
 
@@ -141,5 +168,5 @@ const insertList = (titulo, texto, username) => {
   document.getElementById("newTexto").value = "";
   document.getElementById("newUsername").value = "";
 
-  removeElement()
+  removeTopico()
 }
