@@ -155,18 +155,36 @@ const newTopico = () => {
   --------------------------------------------------------------------------------------
 */
 const insertList = (titulo, texto, username) => {
-  var topico = [titulo, texto, username]
-  var table = document.getElementById('myTable');
-  var row = table.insertRow();
+  let newDiv = document.createElement('div');
+  newDiv.className = "d-flex text-muted pt-3"
 
-  for (var i = 0; i < topico.length; i++) {
-    var cel = row.insertCell(i);
-    cel.textContent = topico[i];
-  }
-  insertButton(row.insertCell(-1))
+  let newP = document.createElement('p');
+  newP.className = "pb-3 mb-0 small lh-sm border-bottom"
+
+  let newStrong = document.createElement('strong');
+  newStrong.className = "d-block text-gray-dark"
+
+  let newSmall = document.createElement('small');
+  newSmall.className = "d-block mt-3";
+
+  const newTituloContent = document.createTextNode(titulo);
+  const newUsernameContent = document.createTextNode(username);
+
+  newStrong.appendChild(newTituloContent);
+  newSmall.appendChild(newUsernameContent);
+
+  newP.appendChild(newStrong);
+  newP.appendChild(newSmall);
+  newDiv.appendChild(newP);
+
+  // add the newly created element and its content into the DOM
+  const topicosRecentes = document.getElementById('topicosRecentes');
+  const lista = document.getElementById('topicosList');
+  lista.insertBefore(newDiv, topicosRecentes.nextSibling);
+
   document.getElementById("newTitulo").value = "";
   document.getElementById("newTexto").value = "";
   document.getElementById("newUsername").value = "";
 
-  removeTopico()
+//   removeTopico()
 }
