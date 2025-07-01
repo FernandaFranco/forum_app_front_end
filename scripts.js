@@ -175,7 +175,7 @@ const newTopico = () => {
 */
 const insertList = (titulo, texto, username) => {
   let newDiv = document.createElement('div');
-  newDiv.className = "d-flex text-muted pt-3";
+  newDiv.className = "topico d-flex text-muted pt-3";
   newDiv.addEventListener("click", () => {
     getTopico(titulo, username);
   });
