@@ -41,26 +41,22 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
     method: 'post',
     body: formData
   })
-    .then((response) => response.json())
+    .then((response) => {
+        if (response.ok) {
+            insertList(inputTitulo, inputTexto, inputUsername)
+            alert("item adicionado com sucesso!")
+        }
+        console.log(response)
+        return response.json()
+    })
+    .then((data) => {
+        console.log(data)
+        // alert(data.mesage)
+    })
     .catch((error) => {
       console.error('Error:', error);
     });
 }
-
-
-/*
-  --------------------------------------------------------------------------------------
-  Função para criar um botão close para cada topico da lista
-  --------------------------------------------------------------------------------------
-*/
-const insertButton = (parent) => {
-  let span = document.createElement("span");
-  let txt = document.createTextNode("\u00D7");
-  span.className = "close";
-  span.appendChild(txt);
-  parent.appendChild(span);
-}
-
 
 /*
   --------------------------------------------------------------------------------------
@@ -111,6 +107,8 @@ const showForm = () => {
 
   document.getElementById("newTopicoBtn").hidden = true;
   document.getElementById("topicosList").hidden = true;
+  document.getElementById("topico").hidden = true;
+
 }
 
 /*
@@ -119,10 +117,33 @@ const showForm = () => {
   --------------------------------------------------------------------------------------
 */
 const showTopicos = () => {
-  document.getElementById("topicoForm").hidden = true;
+  document.getElementById("topicosList").hidden = false;
 
   document.getElementById("newTopicoBtn").hidden = false;
-  document.getElementById("topicosList").hidden = false;
+  document.getElementById("topicoForm").hidden = true;
+  document.getElementById("topico").hidden = true;
+
+}
+
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para obter o topico existente do servidor via requisição GET
+  --------------------------------------------------------------------------------------
+*/
+const getTopico = (titulo, username) => {
+  let url = 'http://127.0.0.1:5000/topico?titulo=' + titulo + '&username=' + username;
+  fetch(url, {
+    method: 'get',
+  })
+    .then((response) => response.json())
+    .then((data) => {
+        console.log(data)
+        insertTopico(data.titulo, data.texto, data.username)
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
 }
 
 
@@ -141,9 +162,7 @@ const newTopico = () => {
   } else if (inputTexto === '' || inputUsername === '') {
     alert("Texto e username são necessários!");
   } else {
-    insertList(inputTitulo, inputTexto, inputUsername)
     postTopico(inputTitulo, inputTexto, inputUsername)
-    alert("Topico adicionado!")
 
     showTopicos()
   }
@@ -156,13 +175,19 @@ const newTopico = () => {
 */
 const insertList = (titulo, texto, username) => {
   let newDiv = document.createElement('div');
-  newDiv.className = "d-flex text-muted pt-3"
+  newDiv.className = "d-flex text-muted pt-3";
+  newDiv.addEventListener("click", () => {
+    getTopico(titulo, username);
+  });
+                
+  let svgHtmlString = "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>"
+  newDiv.insertAdjacentHTML('afterbegin', svgHtmlString);
 
   let newP = document.createElement('p');
-  newP.className = "pb-3 mb-0 small lh-sm border-bottom"
+  newP.className = "pb-3 mb-0 small lh-sm border-bottom";
 
   let newStrong = document.createElement('strong');
-  newStrong.className = "d-block text-gray-dark"
+  newStrong.className = "d-block text-gray-dark";
 
   let newSmall = document.createElement('small');
   newSmall.className = "d-block mt-3";
@@ -180,6 +205,7 @@ const insertList = (titulo, texto, username) => {
   // add the newly created element and its content into the DOM
   const topicosRecentes = document.getElementById('topicosRecentes');
   const lista = document.getElementById('topicosList');
+  // adicionar ao topo da lista
   lista.insertBefore(newDiv, topicosRecentes.nextSibling);
 
   document.getElementById("newTitulo").value = "";
@@ -187,4 +213,21 @@ const insertList = (titulo, texto, username) => {
   document.getElementById("newUsername").value = "";
 
 //   removeTopico()
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para inserir um topico na visualizacao individual 
+  --------------------------------------------------------------------------------------
+*/
+const insertTopico = (titulo, texto, username) => {
+    
+    document.getElementById("titulo").innerHTML = titulo;
+    document.getElementById("texto").innerHTML = texto;
+    document.getElementById("username").innerHTML = username;
+
+    document.getElementById("topico").hidden = false;
+    document.getElementById("newTopicoBtn").hidden = true;
+    document.getElementById("topicosList").hidden = true;
+    document.getElementById("topicoForm").hidden = true;
 }
