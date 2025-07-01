@@ -10,7 +10,7 @@ const getList = () => {
   })
     .then((response) => response.json())
     .then((data) => {
-      data.topicos.forEach(topico => insertList(topico.titulo, topico.texto, topico.username))
+      data.topicos.forEach(topico => insertList(topico.titulo, topico.username))
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -43,58 +43,31 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
   })
     .then((response) => {
         if (response.ok) {
-            insertList(inputTitulo, inputTexto, inputUsername)
-            alert("item adicionado com sucesso!")
+            insertList(inputTitulo, inputUsername)
+            showAlerta("Item adicionado com sucesso!")
         }
-        console.log(response)
         return response.json()
     })
     .then((data) => {
-        console.log(data)
-        // alert(data.mesage)
+        if (data.message) {
+            showForm();
+            showAlerta(data.message);
+        }
     })
     .catch((error) => {
       console.error('Error:', error);
     });
 }
 
-/*
-  --------------------------------------------------------------------------------------
-  Função para remover um topico da lista de acordo com o click no botão close
-  --------------------------------------------------------------------------------------
-*/
-const removeTopico = () => {
-  let close = document.getElementsByClassName("close");
-  // var table = document.getElementById('myTable');
-  let i;
-  for (i = 0; i < close.length; i++) {
-    close[i].onclick = function () {
-      let div = this.parentElement.parentElement;
-      const tituloTopico = div.getElementsByTagName('td')[0].innerHTML
-      if (confirm("Você tem certeza?")) {
-        div.remove()
-        deleteTopico(tituloTopico)
-        alert("Removido!")
-      }
-    }
-  }
+const showAlerta = (mensagem) => {
+    alertaDiv = document.getElementById("alerta");
+    alertaDiv.hidden = false;
+    alertaDiv.firstElementChild.innerHTML = mensagem;
 }
 
-/*
-  --------------------------------------------------------------------------------------
-  Função para deletar um topico da lista do servidor via requisição DELETE
-  --------------------------------------------------------------------------------------
-*/
-const deleteTopico = (titulo) => {
-  console.log(titulo)
-  let url = 'http://127.0.0.1:5000/topico?titulo=' + titulo;
-  fetch(url, {
-    method: 'delete'
-  })
-    .then((response) => response.json())
-    .catch((error) => {
-      console.error('Error:', error);
-    });
+const closeAlerta = () => {
+    alertaDiv = document.getElementById("alerta");
+    alertaDiv.hidden = true;
 }
 
 /*
@@ -108,7 +81,7 @@ const showForm = () => {
   document.getElementById("newTopicoBtn").hidden = true;
   document.getElementById("topicosList").hidden = true;
   document.getElementById("topico").hidden = true;
-
+  document.getElementById("alerta").hidden = true;
 }
 
 /*
@@ -122,7 +95,21 @@ const showTopicos = () => {
   document.getElementById("newTopicoBtn").hidden = false;
   document.getElementById("topicoForm").hidden = true;
   document.getElementById("topico").hidden = true;
+  document.getElementById("alerta").hidden = true;
+}
 
+/*
+  --------------------------------------------------------------------------------------
+  Função para mostrar um único tópico
+  --------------------------------------------------------------------------------------
+*/
+const showTopico = () => {
+  document.getElementById("topico").hidden = false;
+
+  document.getElementById("topicosList").hidden = true;
+  document.getElementById("newTopicoBtn").hidden = true;
+  document.getElementById("topicoForm").hidden = true;
+  document.getElementById("alerta").hidden = true;
 }
 
 
@@ -131,8 +118,8 @@ const showTopicos = () => {
   Função para obter o topico existente do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
-const getTopico = (titulo, username) => {
-  let url = 'http://127.0.0.1:5000/topico?titulo=' + titulo + '&username=' + username;
+const getTopico = (titulo) => {
+  let url = 'http://127.0.0.1:5000/topico?titulo=' + titulo;
   fetch(url, {
     method: 'get',
   })
@@ -158,9 +145,9 @@ const newTopico = () => {
   let inputUsername = document.getElementById("newUsername").value;
 
   if (inputTitulo === '') {
-    alert("Escreva o titulo de um topico!");
-  } else if (inputTexto === '' || inputUsername === '') {
-    alert("Texto e username são necessários!");
+    showAlerta("Escreva o título de um tópico!")
+} else if (inputTexto === '' || inputUsername === '') {
+    showAlerta("Texto e username são necessários!")  
   } else {
     postTopico(inputTitulo, inputTexto, inputUsername)
 
@@ -173,11 +160,11 @@ const newTopico = () => {
   Função para inserir topicos na lista apresentada
   --------------------------------------------------------------------------------------
 */
-const insertList = (titulo, texto, username) => {
+const insertList = (titulo, username) => {
   let newDiv = document.createElement('div');
   newDiv.className = "topico d-flex text-muted pt-3";
   newDiv.addEventListener("click", () => {
-    getTopico(titulo, username);
+    getTopico(titulo);
   });
                 
   let svgHtmlString = "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>"
@@ -221,13 +208,9 @@ const insertList = (titulo, texto, username) => {
   --------------------------------------------------------------------------------------
 */
 const insertTopico = (titulo, texto, username) => {
-    
     document.getElementById("titulo").innerHTML = titulo;
     document.getElementById("texto").innerHTML = texto;
     document.getElementById("username").innerHTML = username;
 
-    document.getElementById("topico").hidden = false;
-    document.getElementById("newTopicoBtn").hidden = true;
-    document.getElementById("topicosList").hidden = true;
-    document.getElementById("topicoForm").hidden = true;
+    showTopico();
 }
