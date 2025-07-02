@@ -59,6 +59,34 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
     });
 }
 
+const postComentario = async (topico_id, inputTexto, inputUsername) => {
+  const formData = new FormData();
+  formData.append('topico_id', topico_id);
+  formData.append('texto', inputTexto);
+  formData.append('username', inputUsername);
+  
+  let url = 'http://127.0.0.1:5000/comentario';
+  fetch(url, {
+    method: 'post',
+    body: formData
+  })
+    .then((response) => {
+        if (response.ok) {
+            // insertListaComentarios(inputTexto, inputUsername)
+            showAlerta("Comentário adicionado com sucesso!")
+        }
+        return response.json()
+    })
+    .then((data) => {
+        if (data.message) {
+            showAlerta(data.message);
+        }
+    })
+    .catch((error) => {
+      console.error('Error:', error);
+    });
+}
+
 const showAlerta = (mensagem) => {
     alertaDiv = document.getElementById("alerta");
     alertaDiv.hidden = false;
@@ -86,6 +114,21 @@ const showForm = () => {
 
 /*
   --------------------------------------------------------------------------------------
+  Função para mostrar formulário de preenchimento de tópico
+  --------------------------------------------------------------------------------------
+*/
+const showComentarioForm = () => {
+  document.getElementById("topico").hidden = false;
+  document.getElementById("comentarioForm").hidden = false;
+
+  document.getElementById("newComentarioBtn").hidden = true;
+  document.getElementById("newTopicoBtn").hidden = true;
+  document.getElementById("topicosList").hidden = true;
+  document.getElementById("alerta").hidden = true;
+}
+
+/*
+  --------------------------------------------------------------------------------------
   Função para mostrar a lista de tópicos
   --------------------------------------------------------------------------------------
 */
@@ -105,10 +148,12 @@ const showTopicos = () => {
 */
 const showTopico = () => {
   document.getElementById("topico").hidden = false;
+  document.getElementById("newComentarioBtn").hidden = false;
 
   document.getElementById("topicosList").hidden = true;
   document.getElementById("newTopicoBtn").hidden = true;
   document.getElementById("topicoForm").hidden = true;
+  document.getElementById("comentarioForm").hidden = true;
   document.getElementById("alerta").hidden = true;
 }
 
@@ -126,7 +171,7 @@ const getTopico = (titulo) => {
     .then((response) => response.json())
     .then((data) => {
         console.log(data)
-        insertTopico(data.titulo, data.texto, data.username)
+        insertTopico(data.id, data.titulo, data.texto, data.username)
     })
     .catch((error) => {
       console.error('Error:', error);
@@ -152,6 +197,25 @@ const newTopico = () => {
     postTopico(inputTitulo, inputTexto, inputUsername)
 
     showTopicos()
+  }
+}
+
+/*
+  --------------------------------------------------------------------------------------
+  Função para adicionar um novo comentario com texto e username 
+  --------------------------------------------------------------------------------------
+*/
+const newComentario = () => {
+  let topico_id = document.getElementById("topico").dataset.id;
+  let inputTexto = document.getElementById("newComentarioTexto").value;
+  let inputUsername = document.getElementById("newComentarioUsername").value;
+
+if (inputTexto === '' || inputUsername === '') {
+    showAlerta("Texto e username são necessários!")  
+  } else {
+    postComentario(topico_id, inputTexto, inputUsername)
+
+    showTopico()
   }
 }
 
@@ -207,7 +271,8 @@ const insertList = (titulo, username) => {
   Função para inserir um topico na visualizacao individual 
   --------------------------------------------------------------------------------------
 */
-const insertTopico = (titulo, texto, username) => {
+const insertTopico = (id, titulo, texto, username) => {
+    document.getElementById("topico").dataset.id = id;
     document.getElementById("titulo").innerHTML = titulo;
     document.getElementById("texto").innerHTML = texto;
     document.getElementById("username").innerHTML = username;
