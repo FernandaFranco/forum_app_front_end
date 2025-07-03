@@ -1,181 +1,193 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
 
     <title>Discuta!</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr" crossorigin="anonymous">
-</head>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
+      crossorigin="anonymous"
+    />
+  </head>
 
-<body>
+  <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary">
-        <div class="container-fluid">
-            <a class="navbar-brand" href="#" onclick="showTopicos()">Discuta!</a>
-            <button type="submit" onclick="showForm()" class="btn btn-primary" id="newTopicoBtn">Criar Novo Topico</button>
-        </div>
+      <div class="container-fluid">
+        <a class="navbar-brand" href="#" onclick="showTopicos()">Discuta!</a>
+        <button
+          type="submit"
+          onclick="showForm()"
+          class="btn btn-primary"
+          id="newTopicoBtn"
+        >
+          Criar Novo Topico
+        </button>
+      </div>
     </nav>
-    <div class="alert alert-primary" id="alerta" hidden>
+
+    <div id="alerta-div">
+      <div class="alert alert-primary" id="alerta" hidden>
         <p class="d-inline"></p>
-        <button type="button" onclick="closeAlerta()" class="btn-close" aria-label="Close"></button>
-    </div>
-    
-    <div class="container">
-        <!-- Opções para adicionar um novo topico -->
-        <section id="topicoForm" hidden>
-            <form>
-                <div class="mb-3">
-                    <label for="newTitulo" class="form-label">Título:</label>
-                    <input type="text" class="form-control" id="newTitulo">
-                </div>
-                <div class="mb-3">
-                    <label for="newTexto" class="form-label">Texto:</label>
-                    <input type="text" class="form-control" id="newTexto">
-                </div>
-                <div class="mb-3">
-                    <label for="newUsername" class="form-label">Username:</label>
-                    <input type="text" class="form-control" id="newUsername">
-                </div>
-            
-                <button type="submit" onclick="newTopico()" class="btn btn-primary">Adicionar</button>
-                <a href="#" onclick="showTopicos()">Cancelar</a>
-            </form>
-        </section>
-
-        <!-- Seção com topicos existentes -->
-        <section class="topicos" id="topicosList">
-            <h6 class="border-bottom pb-2 mb-0" id="topicosRecentes">Tópicos Recentes</h6>
-         </section>
-
-        <!-- Visualizar tópico -->
-        <section class="py-5" id="topico" hidden>
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-md-8">
-                        <div class="text-center">
-                            <h2 class="display-5 fw-bold" id="titulo"></h2>
-                            <span class="text-muted" id="username"></span>
-                            <p class="lead" id="texto"></p>
-                            <button type="submit" onclick="showComentarioForm()" class="btn btn-primary" id="newComentarioBtn">Adicionar Comentário</button>
-                            <a href="#" onclick="showTopicos()">Voltar</a>
-
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- <div class="row d-flex justify-content-center">
-  <div class="col-md-8 col-lg-6">
-    <div class="card shadow-0 border" style="background-color: #f0f2f5;">
-      <div class="card-body p-4">
-        <div data-mdb-input-init class="form-outline mb-4">
-          <input type="text" id="addANote" class="form-control" placeholder="Type comment..." />
-          <label class="form-label" for="addANote">+ Add a note</label>
-        </div>
-
-        <div class="card mb-4">
-          <div class="card-body">
-            <p>Type your note, and hit enter to add it</p>
-
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-row align-items-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(4).webp" alt="avatar" width="25"
-                  height="25" />
-                <p class="small mb-0 ms-2">Martha</p>
-              </div>
-              <div class="d-flex flex-row align-items-center">
-                <p class="small text-muted mb-0">Upvote?</p>
-                <i class="far fa-thumbs-up mx-2 fa-xs text-body" style="margin-top: -0.16rem;"></i>
-                <p class="small text-muted mb-0">3</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-4">
-          <div class="card-body">
-            <p>Type your note, and hit enter to add it</p>
-
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-row align-items-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="25"
-                  height="25" />
-                <p class="small mb-0 ms-2">Johny</p>
-              </div>
-              <div class="d-flex flex-row align-items-center">
-                <p class="small text-muted mb-0">Upvote?</p>
-                <i class="far fa-thumbs-up mx-2 fa-xs text-body" style="margin-top: -0.16rem;"></i>
-                <p class="small text-muted mb-0">4</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card mb-4">
-          <div class="card-body">
-            <p>Type your note, and hit enter to add it</p>
-
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-row align-items-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(31).webp" alt="avatar" width="25"
-                  height="25" />
-                <p class="small mb-0 ms-2">Mary Kate</p>
-              </div>
-              <div class="d-flex flex-row align-items-center text-body">
-                <p class="small mb-0">Upvoted</p>
-                <i class="fas fa-thumbs-up mx-2 fa-xs" style="margin-top: -0.16rem;"></i>
-                <p class="small mb-0">2</p>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div class="card">
-          <div class="card-body">
-            <p>Type your note, and hit enter to add it</p>
-
-            <div class="d-flex justify-content-between">
-              <div class="d-flex flex-row align-items-center">
-                <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/img%20(32).webp" alt="avatar" width="25"
-                  height="25" />
-                <p class="small mb-0 ms-2">Johny</p>
-              </div>
-              <div class="d-flex flex-row align-items-center">
-                <p class="small text-muted mb-0">Upvote?</p>
-                <i class="far fa-thumbs-up ms-2 fa-xs text-body" style="margin-top: -0.16rem;"></i>
-              </div>
-            </div>
-          </div>
-        </div>
+        <button
+          type="button"
+          onclick="closeAlerta()"
+          class="btn-close"
+          aria-label="Close"
+        ></button>
       </div>
     </div>
-  </div>
-            </div> -->
-        </section>
+
+    <div class="container">
+      <!-- Opções para adicionar um novo topico -->
+      <section id="topicoForm" hidden>
+        <form>
+          <div class="mb-3">
+            <label for="newTitulo" class="form-label">Título:</label>
+            <input type="text" class="form-control" id="newTitulo" />
+          </div>
+          <div class="mb-3">
+            <label for="newTexto" class="form-label">Texto:</label>
+            <input type="text" class="form-control" id="newTexto" />
+          </div>
+          <div class="mb-3">
+            <label for="newUsername" class="form-label">Username:</label>
+            <input type="text" class="form-control" id="newUsername" />
+          </div>
+
+          <button type="submit" onclick="newTopico()" class="btn btn-primary">
+            Adicionar
+          </button>
+          <a href="#" onclick="showTopicos()">Cancelar</a>
+        </form>
+      </section>
+
+      <!-- Seção com topicos existentes -->
+      <section class="topicos" id="topicosList">
+        <h6 class="border-bottom pb-2 mb-2" id="topicosRecentes">
+          Tópicos Recentes
+        </h6>
+      </section>
+
+      <!-- Visualizar tópico -->
+      <section class="py-2" id="topico" hidden>
+        <!-- O tópico em si -->
+        <div class="container">
+          <div class="row d-flex justify-content-center">
+            <div class="col-md-8">
+              <div class="text-center mb-5">
+                <h2 class="display-5 fw-bold" id="titulo"></h2>
+                <span class="text-muted">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    fill="currentColor"
+                    class="bi bi-person-circle"
+                    viewBox="0 0 16 16"
+                  >
+                    <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                    <path
+                      fill-rule="evenodd"
+                      d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                    />
+                  </svg>
+                  <p class="d-inline" id="username"></p>
+                </span>
+                <p class="lead" id="texto"></p>
+                <button
+                  type="submit"
+                  onclick="showComentarioForm()"
+                  class="btn btn-primary"
+                  id="newComentarioBtn"
+                >
+                  Adicionar Comentário
+                </button>
+                <a href="#" onclick="showTopicos()">Voltar</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
         <!-- Opções para adicionar um novo comentario -->
         <section id="comentarioForm" hidden>
-            <form>
-                <div class="mb-3">
-                    <label for="newComentarioTexto" class="form-label">Texto:</label>
-                    <input type="text" class="form-control" id="newComentarioTexto">
-                </div>
-                <div class="mb-3">
-                    <label for="newComentarioUsername" class="form-label">Username:</label>
-                    <input type="text" class="form-control" id="newComentarioUsername">
-                </div>
-            
-                <button type="submit" onclick="newComentario()" class="btn btn-primary">Adicionar</button>
-                <a href="#" onclick="showTopico()">Cancelar</a>
-            </form>
+          <form>
+            <div class="mb-3">
+              <label for="newComentarioTexto" class="form-label">Texto:</label>
+              <input type="text" class="form-control" id="newComentarioTexto" />
+            </div>
+            <div class="mb-3">
+              <label for="newComentarioUsername" class="form-label"
+                >Username:</label
+              >
+              <input
+                type="text"
+                class="form-control"
+                id="newComentarioUsername"
+              />
+            </div>
+
+            <button
+              type="submit"
+              onclick="newComentario()"
+              class="btn btn-primary"
+            >
+              Adicionar
+            </button>
+            <a href="#" onclick="showTopico()">Cancelar</a>
+          </form>
         </section>
 
+        <!-- Seção de comentários -->
+        <div class="row d-flex justify-content-center">
+          <div class="col-md-8 col-lg-6">
+            <div class="card shadow-0 border" style="background-color: #f0f2f5">
+              <div class="card-body p-4">
+                <div class="card mb-4">
+                  <div class="card-body">
+                    <p>Texto do comentário vai aqui</p>
+
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-person-circle"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                          />
+                        </svg>
+                        <p class="small mb-0 ms-2">username</p>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                        <p class="small text-muted mb-0">Dar joinha?</p>
+                        <i
+                          class="far fa-thumbs-up mx-2 fa-xs text-body"
+                          style="margin-top: -0.16rem"
+                        ></i>
+                        <p class="small text-muted mb-0">3</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
 
     <script src="scripts.js"></script>
-</body>
-
+  </body>
 </html>
-

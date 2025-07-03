@@ -4,26 +4,27 @@
   --------------------------------------------------------------------------------------
 */
 const getList = () => {
-  let url = 'http://127.0.0.1:5000/topicos';
+  let url = "http://127.0.0.1:5000/topicos";
   fetch(url, {
-    method: 'get',
+    method: "get",
   })
     .then((response) => response.json())
     .then((data) => {
-      data.topicos.forEach(topico => insertList(topico.titulo, topico.username))
+      data.topicos.forEach((topico) =>
+        insertList(topico.titulo, topico.username)
+      );
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error("Error:", error);
     });
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
   Chamada da função para carregamento inicial dos dados
   --------------------------------------------------------------------------------------
 */
-getList()
-
+getList();
 
 /*
   --------------------------------------------------------------------------------------
@@ -32,71 +33,81 @@ getList()
 */
 const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
   const formData = new FormData();
-  formData.append('titulo', inputTitulo);
-  formData.append('texto', inputTexto);
-  formData.append('username', inputUsername);
+  formData.append("titulo", inputTitulo);
+  formData.append("texto", inputTexto);
+  formData.append("username", inputUsername);
 
-  let url = 'http://127.0.0.1:5000/topico';
+  let url = "http://127.0.0.1:5000/topico";
   fetch(url, {
-    method: 'post',
-    body: formData
+    method: "post",
+    body: formData,
   })
     .then((response) => {
-        if (response.ok) {
-            insertList(inputTitulo, inputUsername)
-            showAlerta("Item adicionado com sucesso!")
-        }
-        return response.json()
+      if (response.ok) {
+        insertList(inputTitulo, inputUsername);
+        showAlerta("Item adicionado com sucesso!");
+      }
+      return response.json();
     })
     .then((data) => {
-        if (data.message) {
-            showForm();
-            showAlerta(data.message);
-        }
+      if (data.message) {
+        showForm();
+        showAlerta(data.message);
+      }
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error("Error:", error);
     });
-}
+};
 
+/*
+  --------------------------------------------------------------------------------------
+  Função para colocar um comentário na lista do servidor via requisição POST
+  --------------------------------------------------------------------------------------
+*/
 const postComentario = async (topico_id, inputTexto, inputUsername) => {
   const formData = new FormData();
-  formData.append('topico_id', topico_id);
-  formData.append('texto', inputTexto);
-  formData.append('username', inputUsername);
-  
-  let url = 'http://127.0.0.1:5000/comentario';
+  formData.append("topico_id", topico_id);
+  formData.append("texto", inputTexto);
+  formData.append("username", inputUsername);
+
+  let url = "http://127.0.0.1:5000/comentario";
   fetch(url, {
-    method: 'post',
-    body: formData
+    method: "post",
+    body: formData,
   })
     .then((response) => {
-        if (response.ok) {
-            // insertListaComentarios(inputTexto, inputUsername)
-            showAlerta("Comentário adicionado com sucesso!")
-        }
-        return response.json()
+      if (response.ok) {
+        // insertListaComentarios(inputTexto, inputUsername)
+        showAlerta("Comentário adicionado com sucesso!");
+      }
+      return response.json();
     })
     .then((data) => {
-        if (data.message) {
-            showAlerta(data.message);
-        }
+      if (data.message) {
+        showAlerta(data.message);
+      }
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error("Error:", error);
     });
-}
+};
 
+/*
+  --------------------------------------------------------------------------------------
+  Toggle Alertas
+  --------------------------------------------------------------------------------------
+*/
 const showAlerta = (mensagem) => {
-    alertaDiv = document.getElementById("alerta");
-    alertaDiv.hidden = false;
-    alertaDiv.firstElementChild.innerHTML = mensagem;
-}
+  alertaDiv = document.getElementById("alerta");
+  alertaDiv.hidden = false;
+  alertaDiv.firstElementChild.innerHTML = mensagem;
+};
 
 const closeAlerta = () => {
-    alertaDiv = document.getElementById("alerta");
-    alertaDiv.hidden = true;
-}
+  alertaDiv = document.getElementById("alerta");
+  alertaDiv.hidden = true;
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -110,7 +121,7 @@ const showForm = () => {
   document.getElementById("topicosList").hidden = true;
   document.getElementById("topico").hidden = true;
   document.getElementById("alerta").hidden = true;
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -125,7 +136,7 @@ const showComentarioForm = () => {
   document.getElementById("newTopicoBtn").hidden = true;
   document.getElementById("topicosList").hidden = true;
   document.getElementById("alerta").hidden = true;
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -134,12 +145,13 @@ const showComentarioForm = () => {
 */
 const showTopicos = () => {
   document.getElementById("topicosList").hidden = false;
-
   document.getElementById("newTopicoBtn").hidden = false;
+
   document.getElementById("topicoForm").hidden = true;
   document.getElementById("topico").hidden = true;
+  document.getElementById("comentarioForm").hidden = true;
   document.getElementById("alerta").hidden = true;
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -155,8 +167,7 @@ const showTopico = () => {
   document.getElementById("topicoForm").hidden = true;
   document.getElementById("comentarioForm").hidden = true;
   document.getElementById("alerta").hidden = true;
-}
-
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -164,20 +175,19 @@ const showTopico = () => {
   --------------------------------------------------------------------------------------
 */
 const getTopico = (titulo) => {
-  let url = 'http://127.0.0.1:5000/topico?titulo=' + titulo;
+  let url = "http://127.0.0.1:5000/topico?titulo=" + titulo;
   fetch(url, {
-    method: 'get',
+    method: "get",
   })
     .then((response) => response.json())
     .then((data) => {
-        console.log(data)
-        insertTopico(data.id, data.titulo, data.texto, data.username)
+      console.log(data);
+      insertTopico(data.id, data.titulo, data.texto, data.username);
     })
     .catch((error) => {
-      console.error('Error:', error);
+      console.error("Error:", error);
     });
-}
-
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -189,16 +199,16 @@ const newTopico = () => {
   let inputTexto = document.getElementById("newTexto").value;
   let inputUsername = document.getElementById("newUsername").value;
 
-  if (inputTitulo === '') {
-    showAlerta("Escreva o título de um tópico!")
-} else if (inputTexto === '' || inputUsername === '') {
-    showAlerta("Texto e username são necessários!")  
+  if (inputTitulo === "") {
+    showAlerta("Escreva o título de um tópico!");
+  } else if (inputTexto === "" || inputUsername === "") {
+    showAlerta("Texto e username são necessários!");
   } else {
-    postTopico(inputTitulo, inputTexto, inputUsername)
+    postTopico(inputTitulo, inputTexto, inputUsername);
 
-    showTopicos()
+    showTopicos();
   }
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -210,14 +220,14 @@ const newComentario = () => {
   let inputTexto = document.getElementById("newComentarioTexto").value;
   let inputUsername = document.getElementById("newComentarioUsername").value;
 
-if (inputTexto === '' || inputUsername === '') {
-    showAlerta("Texto e username são necessários!")  
+  if (inputTexto === "" || inputUsername === "") {
+    showAlerta("Texto e username são necessários!");
   } else {
-    postComentario(topico_id, inputTexto, inputUsername)
+    postComentario(topico_id, inputTexto, inputUsername);
 
-    showTopico()
+    showTopico();
   }
-}
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -225,22 +235,23 @@ if (inputTexto === '' || inputUsername === '') {
   --------------------------------------------------------------------------------------
 */
 const insertList = (titulo, username) => {
-  let newDiv = document.createElement('div');
+  let newDiv = document.createElement("div");
   newDiv.className = "topico d-flex text-muted pt-3";
   newDiv.addEventListener("click", () => {
     getTopico(titulo);
   });
-                
-  let svgHtmlString = "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>"
-  newDiv.insertAdjacentHTML('afterbegin', svgHtmlString);
 
-  let newP = document.createElement('p');
+  let svgHtmlString =
+    "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>";
+  newDiv.insertAdjacentHTML("afterbegin", svgHtmlString);
+
+  let newP = document.createElement("p");
   newP.className = "pb-3 mb-0 small lh-sm border-bottom";
 
-  let newStrong = document.createElement('strong');
+  let newStrong = document.createElement("strong");
   newStrong.className = "d-block text-gray-dark";
 
-  let newSmall = document.createElement('small');
+  let newSmall = document.createElement("small");
   newSmall.className = "d-block mt-3";
 
   const newTituloContent = document.createTextNode(titulo);
@@ -254,8 +265,8 @@ const insertList = (titulo, username) => {
   newDiv.appendChild(newP);
 
   // add the newly created element and its content into the DOM
-  const topicosRecentes = document.getElementById('topicosRecentes');
-  const lista = document.getElementById('topicosList');
+  const topicosRecentes = document.getElementById("topicosRecentes");
+  const lista = document.getElementById("topicosList");
   // adicionar ao topo da lista
   lista.insertBefore(newDiv, topicosRecentes.nextSibling);
 
@@ -263,8 +274,8 @@ const insertList = (titulo, username) => {
   document.getElementById("newTexto").value = "";
   document.getElementById("newUsername").value = "";
 
-//   removeTopico()
-}
+  //   removeTopico()
+};
 
 /*
   --------------------------------------------------------------------------------------
@@ -272,10 +283,10 @@ const insertList = (titulo, username) => {
   --------------------------------------------------------------------------------------
 */
 const insertTopico = (id, titulo, texto, username) => {
-    document.getElementById("topico").dataset.id = id;
-    document.getElementById("titulo").innerHTML = titulo;
-    document.getElementById("texto").innerHTML = texto;
-    document.getElementById("username").innerHTML = username;
+  document.getElementById("topico").dataset.id = id;
+  document.getElementById("titulo").innerHTML = titulo;
+  document.getElementById("username").innerHTML = username;
+  document.getElementById("texto").innerHTML = texto;
 
-    showTopico();
-}
+  showTopico();
+};

@@ -1,11 +1,24 @@
 .topico {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .topico:hover {
-    font-weight: bolder;
+  font-weight: bolder;
+}
+
+#alerta-div {
+  height: 70px;
+}
+
+.navbar-brand {
+  font-size: 40px !important;
+  padding-left: 30px;
 }
 
 .navbar-brand:hover {
-    font-weight: bolder;
+  font-weight: bolder;
+}
+
+#newTopicoBtn {
+  margin-right: 30px;
 }
