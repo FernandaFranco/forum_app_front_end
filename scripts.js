@@ -1,6 +1,6 @@
 /*
   --------------------------------------------------------------------------------------
-  Função para obter a lista existente do servidor via requisição GET
+  Função para obter a lista existente de tópicos do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
 const getList = () => {
@@ -78,7 +78,7 @@ const postComentario = async (topico_id, inputTexto, inputUsername) => {
   })
     .then((response) => {
       if (response.ok) {
-        // insertListaComentarios(inputTexto, inputUsername)
+        insertComentarioLista(inputTexto, inputUsername);
         showAlerta("Comentário adicionado com sucesso!");
       }
       return response.json();
@@ -167,6 +167,7 @@ const showTopico = () => {
   document.getElementById("topicoForm").hidden = true;
   document.getElementById("comentarioForm").hidden = true;
   document.getElementById("alerta").hidden = true;
+  document.getElementById("secao-comentarios").hidden = true;
 };
 
 /*
@@ -181,8 +182,13 @@ const getTopico = (titulo) => {
   })
     .then((response) => response.json())
     .then((data) => {
-      console.log(data);
-      insertTopico(data.id, data.titulo, data.texto, data.username);
+      insertTopico(
+        data.id,
+        data.titulo,
+        data.texto,
+        data.username,
+        data.comentarios
+      );
     })
     .catch((error) => {
       console.error("Error:", error);
@@ -231,12 +237,61 @@ const newComentario = () => {
 
 /*
   --------------------------------------------------------------------------------------
+  Função para inserir comentário no tópico apresentado
+  --------------------------------------------------------------------------------------
+*/
+const insertComentarioLista = (texto, username) => {
+  const string = `<div class="card mb-4">
+                  <div class="card-body">
+                    <p>${texto}</p>
+
+                    <div class="d-flex justify-content-between">
+                      <div class="d-flex flex-row align-items-center">
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          width="16"
+                          height="16"
+                          fill="currentColor"
+                          class="bi bi-person-circle"
+                          viewBox="0 0 16 16"
+                        >
+                          <path d="M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0" />
+                          <path
+                            fill-rule="evenodd"
+                            d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
+                          />
+                        </svg>
+                        <p class="small mb-0 ms-2">${username}</p>
+                      </div>
+                      <div class="d-flex flex-row align-items-center">
+                        <p class="small text-muted mb-0">Dar joinha?</p>
+                        <i
+                          class="far fa-thumbs-up mx-2 fa-xs text-body"
+                          style="margin-top: -0.16rem"
+                        ></i>
+                        <p class="small text-muted mb-0">3</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+`;
+
+  const listaComentarios = document.getElementById("lista-comentarios");
+  // adicionar ao topo da lista
+  listaComentarios.insertAdjacentHTML("afterbegin", string);
+
+  document.getElementById("newComentarioTexto").value = "";
+  document.getElementById("newComentarioUsername").value = "";
+};
+
+/*
+  --------------------------------------------------------------------------------------
   Função para inserir topicos na lista apresentada
   --------------------------------------------------------------------------------------
 */
 const insertList = (titulo, username) => {
   let newDiv = document.createElement("div");
-  newDiv.className = "topico d-flex text-muted pt-3";
+  newDiv.className = "topico d-flex text-muted pt-3 border-bottom";
   newDiv.addEventListener("click", () => {
     getTopico(titulo);
   });
@@ -246,13 +301,15 @@ const insertList = (titulo, username) => {
   newDiv.insertAdjacentHTML("afterbegin", TopicoSvgHtmlString);
 
   let newP = document.createElement("p");
-  newP.className = "pb-3 mb-0 small lh-sm border-bottom";
+  newP.className = "pb-3 mb-0 small lh-sm";
 
   let newStrong = document.createElement("strong");
   newStrong.className = "d-block text-gray-dark";
 
   let newSmall = document.createElement("small");
   newSmall.className = "d-block mt-3";
+  let usernameWrapperDiv = document.createElement("div");
+  usernameWrapperDiv.className = "d-inline px-1";
 
   let UsernameSvgHtmlString =
     "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-person-circle' viewBox='0 0 16 16'> <path d='M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0' /> <path fill-rule='evenodd' d='M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1' /> </svg>";
@@ -262,7 +319,8 @@ const insertList = (titulo, username) => {
   const newUsernameContent = document.createTextNode(username);
 
   newStrong.appendChild(newTituloContent);
-  newSmall.appendChild(newUsernameContent);
+  usernameWrapperDiv.appendChild(newUsernameContent);
+  newSmall.appendChild(usernameWrapperDiv);
 
   newP.appendChild(newStrong);
   newP.appendChild(newSmall);
@@ -271,7 +329,7 @@ const insertList = (titulo, username) => {
   const topicosRecentes = document.getElementById("topicosRecentes");
   const lista = document.getElementById("topicosList");
   // adicionar ao topo da lista
-  lista.insertBefore(newDiv, topicosRecentes.nextSibling);
+  topicosRecentes.insertAdjacentElement("afterend", newDiv);
 
   document.getElementById("newTitulo").value = "";
   document.getElementById("newTexto").value = "";
@@ -283,11 +341,26 @@ const insertList = (titulo, username) => {
   Função para inserir um topico na visualizacao individual 
   --------------------------------------------------------------------------------------
 */
-const insertTopico = (id, titulo, texto, username) => {
+const insertTopico = (id, titulo, texto, username, comentarios) => {
   document.getElementById("topico").dataset.id = id;
   document.getElementById("titulo").innerHTML = titulo;
   document.getElementById("username").innerHTML = username;
   document.getElementById("texto").innerHTML = texto;
 
   showTopico();
+  popularComentarios(comentarios);
+};
+
+const popularComentarios = (comentarios) => {
+  console.log(comentarios);
+  console.log(comentarios.length === 0);
+  if (comentarios.length === 0) {
+    return false;
+  } else {
+    document.getElementById("secao-comentarios").hidden = false;
+    document.getElementById("lista-comentarios").innerHTML = "";
+    comentarios.forEach((comentario) => {
+      insertComentarioLista(comentario.texto, "username");
+    });
+  }
 };

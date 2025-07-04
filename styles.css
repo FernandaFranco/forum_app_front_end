@@ -6,10 +6,6 @@
   font-weight: bolder;
 }
 
-#alerta-div {
-  height: 70px;
-}
-
 .navbar-brand {
   font-size: 40px !important;
   padding-left: 30px;
@@ -23,15 +19,19 @@
   margin-right: 30px;
 }
 
-#alerta button {
-  padding-left: 20px;
+#alerta-div {
+  height: 70px;
+}
+
+#alerta {
+  display: flex;
+  justify-content: start;
 }
 
 #alerta p {
   margin-bottom: 0;
 }
 
-#alerta {
-  display: flex;
-  justify-content: start;
+#alerta button {
+  padding-left: 20px;
 }
