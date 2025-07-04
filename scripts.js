@@ -230,7 +230,9 @@ const newComentario = () => {
   } else {
     postComentario(topico_id, inputTexto, inputUsername);
 
-    showTopico();
+    document.getElementById("newComentarioBtn").hidden = false;
+    document.getElementById("comentarioForm").hidden = true;
+    document.getElementById("secao-comentarios").hidden = false;
   }
 };
 
@@ -347,19 +349,24 @@ const insertTopico = (id, titulo, texto, username, comentarios) => {
   document.getElementById("texto").innerHTML = texto;
 
   showTopico();
-  popularComentarios(comentarios);
+  popularComentariosDatabase(comentarios);
 };
 
-const popularComentarios = (comentarios) => {
-  console.log(comentarios);
+const popularComentariosDatabase = (comentarios) => {
   console.log(comentarios.length === 0);
+  console.log(
+    document.getElementById("lista-comentarios").childElementCount === 0
+  );
+
+  // Garante que a lista esteja limpa antes de popular comentarios existentes ou adicionar novos
+  document.getElementById("lista-comentarios").innerHTML = "";
+
   if (comentarios.length === 0) {
     document.getElementById("secao-comentarios").hidden = true;
   } else {
-    document.getElementById("secao-comentarios").hidden = false;
-    document.getElementById("lista-comentarios").innerHTML = "";
     comentarios.forEach((comentario) => {
-      insertComentarioLista(comentario.texto, "username");
+      insertComentarioLista(comentario.texto, comentario.username);
     });
+    document.getElementById("secao-comentarios").hidden = false;
   }
 };
