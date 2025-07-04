@@ -45,33 +45,46 @@
 
     <div class="container">
       <!-- Opções para adicionar um novo topico -->
-      <section id="topicoForm" hidden>
-        <form>
-          <div class="mb-3">
-            <label for="newTitulo" class="form-label">Título:</label>
-            <input type="text" class="form-control" id="newTitulo" />
-          </div>
-          <div class="mb-3">
-            <label for="newTexto" class="form-label">Texto:</label>
-            <input type="text" class="form-control" id="newTexto" />
-          </div>
-          <div class="mb-3">
-            <label for="newUsername" class="form-label">Username:</label>
-            <input type="text" class="form-control" id="newUsername" />
-          </div>
+      <div class="row d-flex justify-content-center">
+        <section class="col-md-8 col-lg-6" id="topicoForm" hidden>
+          <fieldset>
+            <legend>Adicione um novo tópico:</legend>
+            <form>
+              <div class="mb-3">
+                <label for="newTitulo" class="form-label">Título:</label>
+                <input type="text" class="form-control" id="newTitulo" />
+              </div>
+              <div class="mb-3">
+                <label for="newTexto" class="form-label">Texto:</label>
+                <textarea
+                  class="form-control"
+                  id="newTexto"
+                  rows="5"
+                ></textarea>
+              </div>
+              <div class="mb-3">
+                <label for="newUsername" class="form-label">Username:</label>
+                <input type="text" class="form-control" id="newUsername" />
+              </div>
 
-          <button type="submit" onclick="newTopico()" class="btn btn-primary">
-            Adicionar
-          </button>
-          <a href="#" onclick="showTopicos()">Cancelar</a>
-        </form>
-      </section>
+              <button
+                type="submit"
+                onclick="newTopico()"
+                class="btn btn-primary"
+              >
+                Adicionar
+              </button>
+              <a href="#" onclick="showTopicos()">Cancelar</a>
+            </form>
+          </fieldset>
+        </section>
+      </div>
 
       <!-- Seção com topicos existentes -->
       <section class="topicos" id="topicosList">
-        <h6 class="border-bottom pb-2 mb-2" id="topicosRecentes">
+        <h3 class="border-bottom pb-2 mb-2" id="topicosRecentes">
           Tópicos Recentes
-        </h6>
+        </h3>
       </section>
 
       <!-- Visualizar tópico -->
@@ -115,33 +128,45 @@
         </div>
 
         <!-- Opções para adicionar um novo comentario -->
-        <section id="comentarioForm" hidden>
-          <form>
-            <div class="mb-3">
-              <label for="newComentarioTexto" class="form-label">Texto:</label>
-              <input type="text" class="form-control" id="newComentarioTexto" />
-            </div>
-            <div class="mb-3">
-              <label for="newComentarioUsername" class="form-label"
-                >Username:</label
-              >
-              <input
-                type="text"
-                class="form-control"
-                id="newComentarioUsername"
-              />
-            </div>
+        <div class="row d-flex justify-content-center">
+          <section class="col-md-8 col-lg-6" id="comentarioForm" hidden>
+            <fieldset>
+              <legend>Adicione um novo comentário:</legend>
+              <form>
+                <div class="mb-3">
+                  <label for="newComentarioTexto" class="form-label"
+                    >Texto:</label
+                  >
+                  <textarea
+                    type="text"
+                    class="form-control"
+                    id="newComentarioTexto"
+                    rows="5"
+                  ></textarea>
+                </div>
+                <div class="mb-3">
+                  <label for="newComentarioUsername" class="form-label"
+                    >Username:</label
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="newComentarioUsername"
+                  />
+                </div>
 
-            <button
-              type="submit"
-              onclick="newComentario()"
-              class="btn btn-primary"
-            >
-              Adicionar
-            </button>
-            <a href="#" onclick="showTopico()">Cancelar</a>
-          </form>
-        </section>
+                <button
+                  type="submit"
+                  onclick="newComentario()"
+                  class="btn btn-primary"
+                >
+                  Adicionar
+                </button>
+                <a href="#" onclick="showTopico()">Cancelar</a>
+              </form>
+            </fieldset>
+          </section>
+        </div>
 
         <!-- Seção de comentários -->
         <div class="row d-flex justify-content-center">

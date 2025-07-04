@@ -241,9 +241,9 @@ const insertList = (titulo, username) => {
     getTopico(titulo);
   });
 
-  let svgHtmlString =
+  let TopicoSvgHtmlString =
     "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>";
-  newDiv.insertAdjacentHTML("afterbegin", svgHtmlString);
+  newDiv.insertAdjacentHTML("afterbegin", TopicoSvgHtmlString);
 
   let newP = document.createElement("p");
   newP.className = "pb-3 mb-0 small lh-sm border-bottom";
@@ -253,6 +253,10 @@ const insertList = (titulo, username) => {
 
   let newSmall = document.createElement("small");
   newSmall.className = "d-block mt-3";
+
+  let UsernameSvgHtmlString =
+    "<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='currentColor' class='bi bi-person-circle' viewBox='0 0 16 16'> <path d='M11 6a3 3 0 1 1-6 0 3 3 0 0 1 6 0' /> <path fill-rule='evenodd' d='M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1' /> </svg>";
+  newSmall.insertAdjacentHTML("afterbegin", UsernameSvgHtmlString);
 
   const newTituloContent = document.createTextNode(titulo);
   const newUsernameContent = document.createTextNode(username);
@@ -264,7 +268,6 @@ const insertList = (titulo, username) => {
   newP.appendChild(newSmall);
   newDiv.appendChild(newP);
 
-  // add the newly created element and its content into the DOM
   const topicosRecentes = document.getElementById("topicosRecentes");
   const lista = document.getElementById("topicosList");
   // adicionar ao topo da lista
@@ -273,8 +276,6 @@ const insertList = (titulo, username) => {
   document.getElementById("newTitulo").value = "";
   document.getElementById("newTexto").value = "";
   document.getElementById("newUsername").value = "";
-
-  //   removeTopico()
 };
 
 /*

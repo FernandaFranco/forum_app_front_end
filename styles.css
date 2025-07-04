@@ -22,3 +22,16 @@
 #newTopicoBtn {
   margin-right: 30px;
 }
+
+#alerta button {
+  padding-left: 20px;
+}
+
+#alerta p {
+  margin-bottom: 0;
+}
+
+#alerta {
+  display: flex;
+  justify-content: start;
+}
