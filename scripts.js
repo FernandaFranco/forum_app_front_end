@@ -167,7 +167,6 @@ const showTopico = () => {
   document.getElementById("topicoForm").hidden = true;
   document.getElementById("comentarioForm").hidden = true;
   document.getElementById("alerta").hidden = true;
-  document.getElementById("secao-comentarios").hidden = true;
 };
 
 /*
@@ -355,7 +354,7 @@ const popularComentarios = (comentarios) => {
   console.log(comentarios);
   console.log(comentarios.length === 0);
   if (comentarios.length === 0) {
-    return false;
+    document.getElementById("secao-comentarios").hidden = true;
   } else {
     document.getElementById("secao-comentarios").hidden = false;
     document.getElementById("lista-comentarios").innerHTML = "";
