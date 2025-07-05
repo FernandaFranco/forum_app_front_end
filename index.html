@@ -17,7 +17,7 @@
   </head>
 
   <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+    <nav class="navbar navbar-expand-lg bg-body-secondary border-bottom">
       <div class="container-fluid">
         <a class="navbar-brand" href="#" onclick="showTopicos()">Discuta!</a>
         <button
@@ -74,7 +74,7 @@
               >
                 Adicionar
               </button>
-              <a href="#" onclick="showTopicos()">Cancelar</a>
+              <a href="#" class="px-3" onclick="showTopicos()">Cancelar</a>
             </form>
           </fieldset>
         </section>
@@ -121,7 +121,7 @@
                 >
                   Adicionar Comentário
                 </button>
-                <a href="#" onclick="showTopicos()">Voltar</a>
+                <a href="#" class="px-3" onclick="showTopicos()">Voltar</a>
               </div>
             </div>
           </div>
@@ -162,7 +162,7 @@
                 >
                   Adicionar
                 </button>
-                <a href="#" onclick="showTopico()">Cancelar</a>
+                <a href="#" class="px-3" onclick="showTopico()">Cancelar</a>
               </form>
             </fieldset>
           </section>
@@ -170,13 +170,9 @@
 
         <!-- Seção de comentários -->
         <div class="row d-flex justify-content-center">
-          <div class="col-md-8 col-lg-6">
-            <div
-              class="card shadow-0 border"
-              style="background-color: #f0f2f5"
-              id="secao-comentarios"
-              hidden
-            >
+          <div class="col-md-8 col-lg-6 py-4">
+            <h3 class="pb-2 mb-2" id="total-comentarios">0 comentários</h3>
+            <div class="card shadow-0 border" id="secao-comentarios" hidden>
               <div class="card-body p-4" id="lista-comentarios"></div>
             </div>
           </div>

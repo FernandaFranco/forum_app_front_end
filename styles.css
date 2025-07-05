@@ -1,3 +1,11 @@
+.btn-primary {
+  background-color: rgb(0, 128, 157) !important;
+}
+
+a {
+  color: rgb(0, 82, 100) !important;
+}
+
 .topico {
   cursor: pointer;
 }
@@ -8,11 +16,8 @@
 
 .navbar-brand {
   font-size: 40px !important;
-  padding-left: 30px;
-}
-
-.navbar-brand:hover {
   font-weight: bolder;
+  padding-left: 30px;
 }
 
 #newTopicoBtn {
@@ -26,6 +31,7 @@
 #alerta {
   display: flex;
   justify-content: start;
+  background-color: rgb(0, 153, 187) !important;
 }
 
 #alerta p {
@@ -34,4 +40,8 @@
 
 #alerta button {
   padding-left: 20px;
+}
+
+#secao-comentarios {
+  background-color: #f0f2f5;
 }

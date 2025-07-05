@@ -11,7 +11,7 @@ const getList = () => {
     .then((response) => response.json())
     .then((data) => {
       data.topicos.forEach((topico) =>
-        insertList(topico.titulo, topico.username)
+        insertList(topico.titulo, topico.username, topico.total_comentarios)
       );
     })
     .catch((error) => {
@@ -79,6 +79,7 @@ const postComentario = async (topico_id, inputTexto, inputUsername) => {
     .then((response) => {
       if (response.ok) {
         insertComentarioLista(inputTexto, inputUsername);
+
         showAlerta("Comentário adicionado com sucesso!");
       }
       return response.json();
@@ -145,6 +146,8 @@ const showComentarioForm = () => {
 */
 const showTopicos = () => {
   document.getElementById("topicosList").hidden = false;
+  // atualiza contagem de comentarios
+
   document.getElementById("newTopicoBtn").hidden = false;
 
   document.getElementById("topicoForm").hidden = true;
@@ -265,12 +268,6 @@ const insertComentarioLista = (texto, username) => {
                         <p class="small mb-0 ms-2">${username}</p>
                       </div>
                       <div class="d-flex flex-row align-items-center">
-                        <p class="small text-muted mb-0">Dar joinha?</p>
-                        <i
-                          class="far fa-thumbs-up mx-2 fa-xs text-body"
-                          style="margin-top: -0.16rem"
-                        ></i>
-                        <p class="small text-muted mb-0">3</p>
                       </div>
                     </div>
                   </div>
@@ -281,6 +278,11 @@ const insertComentarioLista = (texto, username) => {
   // adicionar ao topo da lista
   listaComentarios.insertAdjacentHTML("afterbegin", string);
 
+  // atualiza contagem de comentarios
+  document.getElementById("total-comentarios").innerHTML = `${
+    document.getElementById("lista-comentarios").childElementCount
+  } comentários`;
+
   document.getElementById("newComentarioTexto").value = "";
   document.getElementById("newComentarioUsername").value = "";
 };
@@ -290,19 +292,34 @@ const insertComentarioLista = (texto, username) => {
   Função para inserir topicos na lista apresentada
   --------------------------------------------------------------------------------------
 */
-const insertList = (titulo, username) => {
+const insertList = (titulo, username, total_comentarios = 0) => {
+  const newDiv = construirDOMTopico(titulo, username, total_comentarios);
+
+  const topicosRecentes = document.getElementById("topicosRecentes");
+  // adicionar ao topo da lista
+  topicosRecentes.insertAdjacentElement("afterend", newDiv);
+
+  document.getElementById("newTitulo").value = "";
+  document.getElementById("newTexto").value = "";
+  document.getElementById("newUsername").value = "";
+};
+
+const construirDOMTopico = (titulo, username, total_comentarios) => {
   let newDiv = document.createElement("div");
   newDiv.className = "topico d-flex text-muted pt-3 border-bottom";
   newDiv.addEventListener("click", () => {
     getTopico(titulo);
   });
 
-  let TopicoSvgHtmlString =
-    "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>";
+  let TopicoSvgHtmlString = `<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="rgb(0, 128, 157)" class="bi bi-postcard-fill bd-placeholder-img flex-shrink-0 me-2 rounded" viewBox="0 0 16 16">
+  <path d="M11 8h2V6h-2z"/>
+  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm8.5.5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0zM2 5.5a.5.5 0 0 0 .5.5H6a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5M2.5 7a.5.5 0 0 0 0 1H6a.5.5 0 0 0 0-1zM2 9.5a.5.5 0 0 0 .5.5H6a.5.5 0 0 0 0-1H2.5a.5.5 0 0 0-.5.5m8-4v3a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-3a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5"/>
+</svg>`;
+  // "<svg class='bd-placeholder-img flex-shrink-0 me-2 rounded' width='32' height='32' xmlns='http://www.w3.org/2000/svg' role='img' aria-label='Placeholder: 32x32' preserveAspectRatio='xMidYMid slice' focusable='false'><title>Placeholder</title><rect width='100%' height='100%' fill='#007bff'></rect><text x='50%' y='50%' fill='#007bff' dy='.3em'>32x32</text></svg>";
   newDiv.insertAdjacentHTML("afterbegin", TopicoSvgHtmlString);
 
-  let newP = document.createElement("p");
-  newP.className = "pb-3 mb-0 small lh-sm";
+  let newTituloUsernameP = document.createElement("p");
+  newTituloUsernameP.className = "pb-3 mb-0 flex-grow-1";
 
   let newStrong = document.createElement("strong");
   newStrong.className = "d-block text-gray-dark";
@@ -323,18 +340,33 @@ const insertList = (titulo, username) => {
   usernameWrapperDiv.appendChild(newUsernameContent);
   newSmall.appendChild(usernameWrapperDiv);
 
-  newP.appendChild(newStrong);
-  newP.appendChild(newSmall);
-  newDiv.appendChild(newP);
+  newTituloUsernameP.appendChild(newStrong);
+  newTituloUsernameP.appendChild(newSmall);
+  newDiv.appendChild(newTituloUsernameP);
 
-  const topicosRecentes = document.getElementById("topicosRecentes");
-  const lista = document.getElementById("topicosList");
-  // adicionar ao topo da lista
-  topicosRecentes.insertAdjacentElement("afterend", newDiv);
+  let ComentarioSvgHtmlString = `
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="16"
+    height="16"
+    fill="currentColor"
+    class="bi bi-chat-fill"
+    viewBox="0 0 16 16"
+  >
+    //{" "}
+    <path d="M8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6-.097 1.016-.417 2.13-.771 2.966-.079.186.074.394.273.362 2.256-.37 3.597-.938 4.18-1.234A9 9 0 0 0 8 15"></path>
+    //{" "}
+  </svg>
+  `;
 
-  document.getElementById("newTitulo").value = "";
-  document.getElementById("newTexto").value = "";
-  document.getElementById("newUsername").value = "";
+  let newTotalComentariosP = document.createElement("p");
+  newTotalComentariosP.className = "pb-3 mb-0 lh-sm";
+  const newTotalComentariosContent = document.createTextNode(total_comentarios);
+  newTotalComentariosP.appendChild(newTotalComentariosContent);
+  newTotalComentariosP.insertAdjacentHTML("beforeend", ComentarioSvgHtmlString);
+  newDiv.appendChild(newTotalComentariosP);
+
+  return newDiv;
 };
 
 /*
@@ -353,20 +385,20 @@ const insertTopico = (id, titulo, texto, username, comentarios) => {
 };
 
 const popularComentariosDatabase = (comentarios) => {
-  console.log(comentarios.length === 0);
-  console.log(
-    document.getElementById("lista-comentarios").childElementCount === 0
-  );
-
-  // Garante que a lista esteja limpa antes de popular comentarios existentes ou adicionar novos
+  // Garante que a lista esteja limpa antes de popular comentarios existentes
   document.getElementById("lista-comentarios").innerHTML = "";
 
   if (comentarios.length === 0) {
+    document.getElementById("total-comentarios").innerHTML = "0 comentários";
     document.getElementById("secao-comentarios").hidden = true;
   } else {
     comentarios.forEach((comentario) => {
       insertComentarioLista(comentario.texto, comentario.username);
     });
+    console.log(comentarios.length);
+    document.getElementById(
+      "total-comentarios"
+    ).innerHTML = `${comentarios.length} comentários`;
     document.getElementById("secao-comentarios").hidden = false;
   }
 };
