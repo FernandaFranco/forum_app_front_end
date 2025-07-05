@@ -81,10 +81,11 @@
       </div>
 
       <!-- Seção com topicos existentes -->
-      <section class="topicos" id="topicosList">
+      <section id="topicosList">
         <h3 class="border-bottom pb-2 mb-2" id="topicosRecentes">
           Tópicos Recentes
         </h3>
+        <div id="topicos"></div>
       </section>
 
       <!-- Visualizar tópico -->
@@ -110,18 +111,20 @@
                       d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8m8-7a7 7 0 0 0-5.468 11.37C3.242 11.226 4.805 10 8 10s4.757 1.225 5.468 2.37A7 7 0 0 0 8 1"
                     />
                   </svg>
-                  <p class="d-inline" id="username"></p>
+                  <p class="d-inline small" id="username"></p>
                 </span>
-                <p class="lead" id="texto"></p>
-                <button
-                  type="submit"
-                  onclick="showComentarioForm()"
-                  class="btn btn-primary"
-                  id="newComentarioBtn"
-                >
-                  Adicionar Comentário
-                </button>
-                <a href="#" class="px-3" onclick="showTopicos()">Voltar</a>
+                <p class="lead pt-4" id="texto"></p>
+                <div class="container pt-4">
+                  <button
+                    type="submit"
+                    onclick="showComentarioForm()"
+                    class="btn btn-primary"
+                    id="newComentarioBtn"
+                  >
+                    Adicionar Comentário
+                  </button>
+                  <a href="#" class="px-3" onclick="showTopicos()">Voltar</a>
+                </div>
               </div>
             </div>
           </div>

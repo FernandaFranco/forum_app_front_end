@@ -8,7 +8,9 @@ const getList = () => {
   fetch(url, {
     method: "get",
   })
-    .then((response) => response.json())
+    .then((response) => {
+      return response.json();
+    })
     .then((data) => {
       data.topicos.forEach((topico) =>
         insertList(topico.titulo, topico.username, topico.total_comentarios)
@@ -44,8 +46,9 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
   })
     .then((response) => {
       if (response.ok) {
-        insertList(inputTitulo, inputUsername);
-        showAlerta("Item adicionado com sucesso!");
+        showTopicos();
+
+        showAlerta("Tópico adicionado com sucesso!");
       }
       return response.json();
     })
@@ -145,9 +148,10 @@ const showComentarioForm = () => {
   --------------------------------------------------------------------------------------
 */
 const showTopicos = () => {
-  document.getElementById("topicosList").hidden = false;
-  // atualiza contagem de comentarios
+  document.getElementById("topicos").innerHTML = "";
+  getList();
 
+  document.getElementById("topicosList").hidden = false;
   document.getElementById("newTopicoBtn").hidden = false;
 
   document.getElementById("topicoForm").hidden = true;
@@ -213,8 +217,6 @@ const newTopico = () => {
     showAlerta("Texto e username são necessários!");
   } else {
     postTopico(inputTitulo, inputTexto, inputUsername);
-
-    showTopicos();
   }
 };
 
@@ -295,9 +297,9 @@ const insertComentarioLista = (texto, username) => {
 const insertList = (titulo, username, total_comentarios = 0) => {
   const newDiv = construirDOMTopico(titulo, username, total_comentarios);
 
-  const topicosRecentes = document.getElementById("topicosRecentes");
+  const topicosContainer = document.getElementById("topicos");
   // adicionar ao topo da lista
-  topicosRecentes.insertAdjacentElement("afterend", newDiv);
+  topicosContainer.insertBefore(newDiv, topicosContainer.firstChild);
 
   document.getElementById("newTitulo").value = "";
   document.getElementById("newTexto").value = "";
@@ -395,7 +397,8 @@ const popularComentariosDatabase = (comentarios) => {
     comentarios.forEach((comentario) => {
       insertComentarioLista(comentario.texto, comentario.username);
     });
-    console.log(comentarios.length);
+
+    // Atualiza número total de comentários
     document.getElementById(
       "total-comentarios"
     ).innerHTML = `${comentarios.length} comentários`;
