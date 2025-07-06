@@ -1,6 +1,6 @@
 # Discuta!
 
-Front-end de uma aplicação de Discussion Forum!
+Front-end de uma simples aplicação de fórum de discussões!
 
 ## Como executar
 
