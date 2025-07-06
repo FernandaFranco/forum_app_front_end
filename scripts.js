@@ -17,6 +17,10 @@ const getList = () => {
       );
     })
     .catch((error) => {
+      if (error.message === "NetworkError when attempting to fetch resource.") {
+        showAlerta("Falha na conexão com o servidor!");
+      }
+
       console.error("Error:", error);
     });
 };
@@ -33,7 +37,7 @@ getList();
   Função para colocar um topico na lista do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
+const postTopico = (inputTitulo, inputTexto, inputUsername) => {
   const formData = new FormData();
   formData.append("titulo", inputTitulo);
   formData.append("texto", inputTexto);
@@ -59,6 +63,9 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
       }
     })
     .catch((error) => {
+      if (error.message === "NetworkError when attempting to fetch resource.") {
+        showAlerta("Falha na conexão com o servidor!");
+      }
       console.error("Error:", error);
     });
 };
@@ -68,7 +75,7 @@ const postTopico = async (inputTitulo, inputTexto, inputUsername) => {
   Função para colocar um comentário na lista do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
-const postComentario = async (topico_id, inputTexto, inputUsername) => {
+const postComentario = (topico_id, inputTexto, inputUsername) => {
   const formData = new FormData();
   formData.append("topico_id", topico_id);
   formData.append("texto", inputTexto);
