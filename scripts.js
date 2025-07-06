@@ -1,6 +1,6 @@
 /*
   --------------------------------------------------------------------------------------
-  Função para obter a lista existente de tópicos do servidor via requisição GET
+  Obter a lista existente de tópicos do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
 const getList = () => {
@@ -27,14 +27,14 @@ const getList = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Chamada da função para carregamento inicial dos dados
+  Carregamento inicial dos dados
   --------------------------------------------------------------------------------------
 */
 getList();
 
 /*
   --------------------------------------------------------------------------------------
-  Função para colocar um topico na lista do servidor via requisição POST
+  Colocar um tópico na lista do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
 const postTopico = (inputTitulo, inputTexto, inputUsername) => {
@@ -58,7 +58,7 @@ const postTopico = (inputTitulo, inputTexto, inputUsername) => {
     })
     .then((data) => {
       if (data.message) {
-        showForm();
+        showTopicoForm();
         showAlerta(data.message);
       }
     })
@@ -72,7 +72,7 @@ const postTopico = (inputTitulo, inputTexto, inputUsername) => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para colocar um comentário na lista do servidor via requisição POST
+  Colocar um comentário na lista do servidor via requisição POST
   --------------------------------------------------------------------------------------
 */
 const postComentario = (topico_id, inputTexto, inputUsername) => {
@@ -122,10 +122,10 @@ const closeAlerta = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para mostrar formulário de preenchimento de tópico
+  Mostrar formulário de preenchimento de tópico
   --------------------------------------------------------------------------------------
 */
-const showForm = () => {
+const showTopicoForm = () => {
   document.getElementById("topicoForm").hidden = false;
 
   document.getElementById("newTopicoBtn").hidden = true;
@@ -136,7 +136,7 @@ const showForm = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para mostrar formulário de preenchimento de tópico
+  Mostrar formulário de preenchimento de comentário
   --------------------------------------------------------------------------------------
 */
 const showComentarioForm = () => {
@@ -151,7 +151,7 @@ const showComentarioForm = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para mostrar a lista de tópicos
+  Mostrar a lista de tópicos
   --------------------------------------------------------------------------------------
 */
 const showTopicos = () => {
@@ -169,7 +169,7 @@ const showTopicos = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para mostrar um único tópico
+  Mostrar um único tópico
   --------------------------------------------------------------------------------------
 */
 const showTopico = () => {
@@ -185,7 +185,7 @@ const showTopico = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para obter o topico existente do servidor via requisição GET
+  Obter o tópico existente do servidor via requisição GET
   --------------------------------------------------------------------------------------
 */
 const getTopico = (titulo) => {
@@ -210,7 +210,7 @@ const getTopico = (titulo) => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar um novo topico com titulo, texto e username 
+  Adicionar um novo tópico com titulo, texto e username 
   --------------------------------------------------------------------------------------
 */
 const newTopico = () => {
@@ -229,7 +229,7 @@ const newTopico = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para adicionar um novo comentario com texto e username 
+  Adicionar um novo comentário com texto e username 
   --------------------------------------------------------------------------------------
 */
 const newComentario = () => {
@@ -250,7 +250,7 @@ const newComentario = () => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir comentário no tópico apresentado
+  Inserir comentário no tópico apresentado
   --------------------------------------------------------------------------------------
 */
 const insertComentarioLista = (texto, username) => {
@@ -298,7 +298,7 @@ const insertComentarioLista = (texto, username) => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir topicos na lista apresentada
+  Inserir tópico na lista apresentada
   --------------------------------------------------------------------------------------
 */
 const insertList = (titulo, username, total_comentarios = 0) => {
@@ -380,7 +380,7 @@ const construirDOMTopico = (titulo, username, total_comentarios) => {
 
 /*
   --------------------------------------------------------------------------------------
-  Função para inserir um topico na visualizacao individual 
+  Inserir um tópico na visualização individual 
   --------------------------------------------------------------------------------------
 */
 const insertTopico = (id, titulo, texto, username, comentarios) => {
