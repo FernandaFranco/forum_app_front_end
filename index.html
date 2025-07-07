@@ -47,9 +47,9 @@
       <!-- Opções para adicionar um novo topico -->
       <div class="row d-flex justify-content-center">
         <section class="col-md-8 col-lg-6" id="topicoForm" hidden>
-          <fieldset>
-            <legend>Adicione um novo tópico:</legend>
-            <form>
+          <form>
+            <fieldset>
+              <legend>Adicione um novo tópico:</legend>
               <div class="mb-3">
                 <label for="newTitulo" class="form-label">Título:</label>
                 <input type="text" class="form-control" id="newTitulo" />
@@ -66,17 +66,12 @@
                 <label for="newUsername" class="form-label">Username:</label>
                 <input type="text" class="form-control" id="newUsername" />
               </div>
-
-              <button
-                type="submit"
-                onclick="newTopico()"
-                class="btn btn-primary"
-              >
-                Adicionar
-              </button>
-              <a href="#" class="px-3" onclick="showTopicos()">Cancelar</a>
-            </form>
-          </fieldset>
+            </fieldset>
+            <button type="submit" onclick="newTopico()" class="btn btn-primary">
+              Adicionar
+            </button>
+            <a href="#" class="px-3" onclick="showTopicos()">Cancelar</a>
+          </form>
         </section>
       </div>
 
@@ -133,9 +128,9 @@
         <!-- Opções para adicionar um novo comentario -->
         <div class="row d-flex justify-content-center">
           <section class="col-md-8 col-lg-6" id="comentarioForm" hidden>
-            <fieldset>
-              <legend>Adicione um novo comentário:</legend>
-              <form>
+            <form>
+              <fieldset>
+                <legend>Adicione um novo comentário:</legend>
                 <div class="mb-3">
                   <label for="newComentarioTexto" class="form-label"
                     >Texto:</label
@@ -157,17 +152,16 @@
                     id="newComentarioUsername"
                   />
                 </div>
-
-                <button
-                  type="submit"
-                  onclick="newComentario()"
-                  class="btn btn-primary"
-                >
-                  Adicionar
-                </button>
-                <a href="#" class="px-3" onclick="showTopico()">Cancelar</a>
-              </form>
-            </fieldset>
+              </fieldset>
+              <button
+                type="submit"
+                onclick="newComentario()"
+                class="btn btn-primary"
+              >
+                Adicionar
+              </button>
+              <a href="#" class="px-3" onclick="showTopico()">Cancelar</a>
+            </form>
           </section>
         </div>
 
